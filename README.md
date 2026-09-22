@@ -1,8 +1,19 @@
 # api
 
-Fonction serverless Vercel : proxy générique pour tester des appels API sans être bloqué par le CORS.
+Interface graphique + proxy serverless pour tester l'API des stocks réservés.
 
-## Endpoint
+## Interface
+
+Application React (Vite) avec une page de configuration (URL de base, Site ID, token — sauvegardés dans le navigateur) et un formulaire pour lancer un appel `POST {{url}}/v3/reserved_stocks` (order_ids, filter.global, pagination) et consulter le résultat (statut, durée, JSON).
+
+```bash
+npm install
+npm run dev
+```
+
+> ⚠️ L'appel réel passe par `/api/proxy`, une fonction serverless Vercel. Cette route n'existe pas avec `npm run dev` seul : utilisez `vercel dev` en local, ou déployez sur Vercel.
+
+## Fonction proxy
 
 `POST /api/proxy`
 
@@ -31,4 +42,4 @@ Le proxy relaie la requête côté serveur (évite le CORS) et refuse les cibles
 
 ## Déploiement
 
-Déployer ce dépôt sur [Vercel](https://vercel.com) : la fonction est automatiquement exposée sur `/api/proxy` une fois déployée (ou en local via `vercel dev`).
+Déployer ce dépôt sur [Vercel](https://vercel.com) : le frontend est buildé automatiquement (Vite) et la fonction `/api/proxy` est exposée sans configuration supplémentaire.
