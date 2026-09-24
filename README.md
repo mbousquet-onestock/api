@@ -4,7 +4,7 @@ Interface graphique + proxy serverless pour tester l'API des stocks réservés.
 
 ## Interface
 
-Application React (Vite) avec une page de configuration (URL de base, Site ID, token — sauvegardés dans le navigateur) et un formulaire pour lancer un appel `POST {{url}}/v3/reserved_stocks` (order_ids, filter.global, pagination) et consulter le résultat (statut, durée, JSON).
+Application React (Vite) avec une page de configuration (URL de base, Site ID, token — sauvegardés dans le navigateur) et un formulaire pour lancer un appel `GET {{url}}/v3/reserved_stocks` (avec corps JSON, comme dans Postman) (order_ids, filter.global, pagination) et consulter le résultat (statut, durée, JSON).
 
 ```bash
 npm install
@@ -21,8 +21,9 @@ Corps de la requête :
 
 ```json
 {
-  "targetUrl": "https://exemple.com/v3/reserved_stocks",
-  "payload": { "...": "corps JSON à transmettre en POST à targetUrl" }
+  "targetUrl": "https://api-qualif.onestock-retail.com/v3/reserved_stocks",
+  "method": "GET",
+  "payload": { "...": "corps JSON à transmettre à targetUrl" }
 }
 ```
 
@@ -37,6 +38,8 @@ Réponse :
   "data": { "...": "réponse JSON (ou texte brut) renvoyée par targetUrl" }
 }
 ```
+
+`method` est optionnel (`POST` par défaut ; `GET`, `PUT`, `PATCH`, `DELETE` acceptés). Le corps JSON est envoyé quelle que soit la méthode, y compris en `GET` : l'API OneStock l'exige.
 
 Le proxy relaie la requête côté serveur (évite le CORS), coupe l'appel après 25 s et refuse les cibles locales/privées (localhost, 127.0.0.1, plages IP privées, métadonnées cloud).
 
