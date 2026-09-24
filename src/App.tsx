@@ -163,7 +163,7 @@ export default function App() {
           <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
           <p>
             L'appel passe par une fonction serverless Vercel (<span className="font-mono">/api/proxy</span>) afin d'éviter les blocages CORS.
-            Cette route fonctionne une fois l'application déployée sur Vercel (ou en local via <span className="font-mono">vercel dev</span>) — elle n'est pas disponible avec <span className="font-mono">npm run dev</span>.
+            Elle fonctionne une fois l'application déployée sur Vercel, et en local avec <span className="font-mono">npm run dev</span>.
           </p>
         </div>
 

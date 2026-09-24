@@ -49,7 +49,8 @@ export default async function handler(req: any, res: any) {
     const upstreamResponse = await fetch(parsedUrl.toString(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload ?? {})
+      body: JSON.stringify(payload ?? {}),
+      signal: AbortSignal.timeout(25_000)
     });
 
     const durationMs = Date.now() - startedAt;
@@ -77,9 +78,11 @@ export default async function handler(req: any, res: any) {
     res.status(200).json({
       ok: false,
       status: 0,
-      statusText: 'Erreur réseau',
+      statusText: err?.name === 'TimeoutError' ? 'Délai dépassé' : 'Erreur réseau',
       durationMs,
-      error: err?.message || 'Impossible de joindre le serveur cible.'
+      error: err?.name === 'TimeoutError'
+        ? 'Le serveur cible n\'a pas répondu dans les 25 secondes.'
+        : err?.message || 'Impossible de joindre le serveur cible.'
     });
   }
 }
