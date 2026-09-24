@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-> ⚠️ L'appel réel passe par `/api/proxy`, une fonction serverless Vercel. Cette route n'existe pas avec `npm run dev` seul : utilisez `vercel dev` en local, ou déployez sur Vercel.
+> L'appel réel passe par `/api/proxy`, une fonction serverless Vercel. En local, `npm run dev` expose aussi cette route (middleware Vite qui réutilise le même handler), donc pas besoin de `vercel dev`.
 
 ## Fonction proxy
 
@@ -38,8 +38,8 @@ Réponse :
 }
 ```
 
-Le proxy relaie la requête côté serveur (évite le CORS) et refuse les cibles locales/privées (localhost, 127.0.0.1, plages IP privées, métadonnées cloud).
+Le proxy relaie la requête côté serveur (évite le CORS), coupe l'appel après 25 s et refuse les cibles locales/privées (localhost, 127.0.0.1, plages IP privées, métadonnées cloud).
 
 ## Déploiement
 
-Déployer ce dépôt sur [Vercel](https://vercel.com) : le frontend est buildé automatiquement (Vite) et la fonction `/api/proxy` est exposée sans configuration supplémentaire.
+Déployer ce dépôt sur [Vercel](https://vercel.com) : le frontend est buildé automatiquement (Vite) et la fonction `/api/proxy` est exposée sans configuration supplémentaire. Le rewrite SPA de `vercel.json` exclut `/api/*` pour que les appels atteignent bien la fonction.
