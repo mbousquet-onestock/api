@@ -17,6 +17,7 @@ import {
 import { ApiTesterConfig, loadApiTesterConfig, saveApiTesterConfig } from './utils/apiTesterConfig';
 
 const ENDPOINT_PATH = '/v3/reserved_stocks';
+const ENDPOINT_METHOD = 'GET';
 
 interface CallResult {
   ok: boolean;
@@ -90,7 +91,7 @@ export default function App() {
       const res = await fetch('/api/proxy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetUrl, payload })
+        body: JSON.stringify({ targetUrl, method: ENDPOINT_METHOD, payload })
       });
 
       if (!res.ok) {
@@ -152,7 +153,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-base font-bold text-slate-900 leading-tight">Testeur d'API</h1>
-            <p className="text-xs text-slate-500 leading-tight">Stocks réservés — POST {ENDPOINT_PATH}</p>
+            <p className="text-xs text-slate-500 leading-tight">Stocks réservés — {ENDPOINT_METHOD} {ENDPOINT_PATH}</p>
           </div>
         </div>
       </header>
@@ -187,7 +188,7 @@ export default function App() {
                 required
                 value={config.baseUrl}
                 onChange={(e) => setConfig({ ...config, baseUrl: e.target.value })}
-                placeholder="https://votre-solution.vercel.app"
+                placeholder="https://api-qualif.onestock-retail.com"
                 className="w-full p-2.5 border border-slate-200 rounded-lg text-xs font-mono"
               />
               <p className="text-[10px] text-slate-500 mt-1">
